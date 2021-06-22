@@ -2,9 +2,8 @@ package ga.rubydesic.dmd
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import ga.rubydesic.dmd.analytics.Analytics
-import ga.rubydesic.dmd.game.ClientboundPlayMusicPacket
-import ga.rubydesic.dmd.game.DynamicRecordItem
+import ga.rubydesic.dmd.game.*
+//import ga.rubydesic.dmd.analytics.Analytics
 import ga.rubydesic.dmd.util.using
 import kotlinx.coroutines.*
 import net.fabricmc.api.EnvType
@@ -29,13 +28,23 @@ import java.nio.file.attribute.PosixFilePermissions
 // For support join https://discord.gg/pPAabdafJU
 
 const val MOD_ID = "dynamic-discs"
-const val MOD_VERSION = "2.0.7"
+const val MOD_VERSION = "2.0.8"
 
 val dir: Path = Paths.get("dynamic-discs")
 val cacheDir: Path = dir.resolve("cache")
 
 
 val dynamicRecordItem = DynamicRecordItem(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemB = DynamicRecordItemBlue(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemR = DynamicRecordItemRed(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemLG = DynamicRecordItemLightGreen(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemDG = DynamicRecordItemDarkGreen(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemP = DynamicRecordItemPink(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemPu = DynamicRecordItemPurple(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemW = DynamicRecordItemWhite(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemY = DynamicRecordItemYellow(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemGr = DynamicRecordItemGray(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
+val dynamicRecordItemO = DynamicRecordItemOrange(Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1))
 
 val log: Logger = LogManager.getLogger("Dynamic Discs")
 lateinit var ytdlBinaryFuture: Deferred<Path>
@@ -53,14 +62,24 @@ fun init() {
 
     log.info("Natives extracted!")
 
-    Analytics.event("Start Game", session = true)
+    //Analytics.event("Start Game", session = true)
     Runtime.getRuntime().addShutdownHook(Thread {
         runBlocking {
-            Analytics.event("End Game", session = false).join()
+            //Analytics.event("End Game", session = false).join()
         }
     })
 
     Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc"), dynamicRecordItem)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_blue"), dynamicRecordItemB)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_red"), dynamicRecordItemR)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_white"), dynamicRecordItemW)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_pink"), dynamicRecordItemP)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_purple"), dynamicRecordItemPu)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_gray"), dynamicRecordItemGr)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_dark_green"), dynamicRecordItemDG)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_light_green"), dynamicRecordItemLG)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_yellow"), dynamicRecordItemY)
+    Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_orange"), dynamicRecordItemO)
 
     if (!isDedicatedServer) {
         ClientboundPlayMusicPacket.register(ClientSidePacketRegistry.INSTANCE)

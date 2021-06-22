@@ -3,10 +3,11 @@
   "id": "dynamic-discs",
   "version": "${version}",
 
-  "name": "Dynamic Music Disc",
+  "name": "Dynamic Music Disc Jacob FIX",
   "description": "Rename a Dynamic Disc to play music from Youtube",
   "authors": [
-    "Rubydesic"
+    "Rubydesic",
+    "Jacobwasbeast"
   ],
   "contact": {
     "homepage": "https://github.com/Rubydesic",

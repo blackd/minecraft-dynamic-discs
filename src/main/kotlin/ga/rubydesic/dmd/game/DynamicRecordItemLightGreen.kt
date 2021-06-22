@@ -22,7 +22,7 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.JukeboxBlock
 
-class DynamicRecordItem(properties: Properties?) : Item(properties) {
+class DynamicRecordItemLightGreen(properties: Properties?) : Item(properties) {
 
     private fun playSound(ctx: UseOnContext) {
         val item = ctx.itemInHand

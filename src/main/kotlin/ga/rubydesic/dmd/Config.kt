@@ -4,6 +4,6 @@ class Config {
 
     var attenuationDistance = 64
 
-    var analytics = true
+   // var analytics = true
 
 }

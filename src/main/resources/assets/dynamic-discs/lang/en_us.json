@@ -1,3 +1,13 @@
 {
-  "item.dynamic-discs.dynamic_disc": "Dynamic Disc"
+  "item.dynamic-discs.dynamic_disc": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_blue": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_red": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_white": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_gray": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_dark_green": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_light_green": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_orange": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_yellow": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_pink": "Dynamic Disc",
+  "item.dynamic-discs.dynamic_disc_purple": "Dynamic Disc"
 }
