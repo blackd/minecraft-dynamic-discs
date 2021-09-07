@@ -3,7 +3,7 @@
   "id": "dynamic-discs",
   "version": "${version}",
 
-  "name": "Dynamic Music Disc Jacob FIX",
+  "name": "Dynamic Music Disc Dolphln Update",
   "description": "Rename a Dynamic Disc to play music from Youtube",
   "authors": [
     "Rubydesic",
@@ -27,7 +27,7 @@
     "fabricloader": ">=0.8.7",
     "fabric": "*",
     "fabric-language-kotlin": "*",
-    "minecraft": "1.16.x"
+    "minecraft": "1.17.x"
   },
   "suggests": {
     "flamingo": "*"

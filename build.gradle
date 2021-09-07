@@ -2,11 +2,11 @@ plugins {
     id "fabric-loom"
     id "maven-publish"
     id "org.jetbrains.kotlin.jvm"
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -22,8 +22,9 @@ configurations {
 }
 
 repositories {
-    maven { url = "http://maven.fabricmc.net/" }
+    maven { url = "https://maven.fabricmc.net/" }
     maven { url = "https://jitpack.io" }
+    mavenCentral();
 }
 
 dependencies {
@@ -35,15 +36,16 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    shade("com.github.zakgof:velvet-video:0.5.1") {
+    shadow ("com.github.zakgof:velvet-video:0.5.2") {
         exclude module: "guava"
         exclude group: "org.ow2.asm"
     }
-    shade "com.github.zakgof:velvet-video-natives:0.2.7.full"
+    shadow "com.github.zakgof:velvet-video-natives:0.2.8.full"
 }
 
 processResources {
     inputs.property "version", project.version
+    duplicatesStrategy(DuplicatesStrategy.INCLUDE)
 
     from(sourceSets.main.resources.srcDirs) {
         include "fabric.mod.json"
@@ -75,12 +77,15 @@ jar {
 }
 
 shadowJar {
-    classifier "useless"
-    configurations = [project.configurations.shade]
+    configurations = [project.configurations.shadow]
+    //classifier "useless"
+    //configurations = [project.configurations.shade]
+    relocate "com.zakgof", "ga.rubydesic.libs"
 }
 
 remapJar {
     dependsOn(shadowJar)
+    mustRunAfter(shadowJar)
     input.set(shadowJar.archivePath)
 }
 
@@ -105,4 +110,4 @@ publishing {
     }
 }
 
-compileKotlin.kotlinOptions.jvmTarget = "1.8"
+compileKotlin.kotlinOptions.jvmTarget = "16"
