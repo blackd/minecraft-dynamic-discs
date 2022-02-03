@@ -81,6 +81,8 @@ shadowJar {
     //classifier "useless"
     //configurations = [project.configurations.shade]
     relocate "com.zakgof", "ga.rubydesic.libs"
+    relocate "org.apache.commons.io", "external.org.apache.commons.io"
+    relocate "org.slf4j", "external.org.slf4j"
 }
 
 remapJar {
