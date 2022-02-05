@@ -4,6 +4,7 @@ import com.mojang.math.Vector3d
 import ga.rubydesic.dmd.download.MusicCache
 import ga.rubydesic.dmd.download.MusicId
 import ga.rubydesic.dmd.mixin.client.LevelRendererAccess
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import net.minecraft.client.resources.sounds.SoundInstance
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.TextComponent
 
+@OptIn(DelicateCoroutinesApi::class)
 fun LevelRenderer.playYoutubeMusic(id: MusicId, blockPos: BlockPos) {
     val minecraft = Minecraft.getInstance()
     val lra = this as LevelRendererAccess
@@ -25,7 +27,7 @@ fun LevelRenderer.playYoutubeMusic(id: MusicId, blockPos: BlockPos) {
 
     GlobalScope.launch(minecraft.asCoroutineDispatcher()) {
         val info = MusicCache.getPlaybackInfo(id)
-        minecraft.gui.setNowPlaying(TextComponent(info?.details?.title))
+        minecraft.gui.setNowPlaying(TextComponent(info?.details?.title ?: ""))
     }
 
     val nowPlaying: SoundInstance = VideoSoundInstance(

@@ -10,6 +10,7 @@ import ga.rubydesic.dmd.ytdlBinaryFuture
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+@Suppress("DEPRECATION")
 object YoutubeDl {
 
     /**

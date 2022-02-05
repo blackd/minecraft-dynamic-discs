@@ -10,10 +10,12 @@ import ga.rubydesic.dmd.util.component2
 import ga.rubydesic.dmd.util.component3
 import ga.rubydesic.dmd.util.squared
 import io.netty.buffer.Unpooled
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
+
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionResult
@@ -22,7 +24,8 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.JukeboxBlock
 
-class DynamicRecordItemPurple(properties: Properties?) : Item(properties) {
+@OptIn(DelicateCoroutinesApi::class)
+class DynamicRecordItemPurple(properties: Properties) : Item(properties) {
 
     private fun playSound(ctx: UseOnContext) {
         val item = ctx.itemInHand
@@ -55,7 +58,7 @@ class DynamicRecordItemPurple(properties: Properties?) : Item(properties) {
                 if (playerDistSq < maxDistSq) {
                     val data = FriendlyByteBuf(Unpooled.buffer())
                     ClientboundPlayMusicPacket(MusicSource.YOUTUBE, pos, id).write(data)
-                    ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, ClientboundPlayMusicPacket.packetId, data)
+                    ServerPlayNetworking.send(player, ClientboundPlayMusicPacket.packetId, data)
                 }
             }
         }

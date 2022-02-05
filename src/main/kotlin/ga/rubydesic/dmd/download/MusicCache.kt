@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
+@OptIn(DelicateCoroutinesApi::class)
 object MusicCache {
     private val currentlyDownloading = ConcurrentHashMap<Path, Deferred<AudioPlaybackInfo?>>()
     private val searchCache = CacheBuilder.newBuilder()
@@ -56,10 +57,6 @@ object MusicCache {
         return when (source) {
             YOUTUBE -> getPlaybackInfo(ytCache.resolve(id)) {
                 YoutubeDl.getInfo("https://www.youtube.com/watch?v=$id")
-            }
-            else -> {
-                log.error("Source $source could not be handled")
-                null
             }
         }
     }

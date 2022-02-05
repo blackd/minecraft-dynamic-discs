@@ -7,7 +7,7 @@ import ga.rubydesic.dmd.game.*
 import ga.rubydesic.dmd.util.using
 import kotlinx.coroutines.*
 import net.fabricmc.api.EnvType
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
+
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceLocation
@@ -23,6 +23,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.attribute.PosixFilePermissions
+import kotlin.io.path.outputStream
 
 
 // For support join https://discord.gg/pPAabdafJU
@@ -82,7 +83,7 @@ fun init() {
     Registry.register(Registry.ITEM, ResourceLocation(MOD_ID, "dynamic_disc_orange"), dynamicRecordItemO)
 
     if (!isDedicatedServer) {
-        ClientboundPlayMusicPacket.register(ClientSidePacketRegistry.INSTANCE)
+        ClientboundPlayMusicPacket.registerNg()
     }
 
     deleteOldCache()
@@ -138,7 +139,8 @@ private fun extractFile(name: String, base: String, target: Path) {
     val dest = target.resolve(name)
     if (!Files.exists(dest)) {
         log.info("Extracting /$base/$name...")
-        Files.copy(object {}.javaClass.getResourceAsStream("/$base/$name"), dest)
+        object {}.javaClass.getResourceAsStream("/$base/$name")?.copyTo(dest.outputStream())
+
     }
 }
 
@@ -166,6 +168,7 @@ fun clearCacheIfOutdated() {
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 fun downloadYtDlBinary() {
     val path = dir.resolve(if (SystemUtils.IS_OS_WINDOWS) "youtube-dl.exe" else "youtube-dl").toAbsolutePath()
     if (Files.exists(path)) {
@@ -192,10 +195,8 @@ fun downloadYtDlBinary() {
         }
 
         ytdlBinaryFuture = GlobalScope.async(Dispatchers.IO) {
-            using(
-                openInsecureConnection(downloadUrl).getInputStream(),
-                Files.newOutputStream(path)
-            ) { input, output ->
+            using(openInsecureConnection(downloadUrl).getInputStream(),
+                  Files.newOutputStream(path)) { input, output ->
                 input.copyTo(output)
             }
 

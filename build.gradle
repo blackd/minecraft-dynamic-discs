@@ -2,7 +2,7 @@ plugins {
     id "fabric-loom"
     id "maven-publish"
     id "org.jetbrains.kotlin.jvm"
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "com.github.johnrengelman.shadow" version "7.1.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_16
@@ -113,3 +113,5 @@ publishing {
 }
 
 compileKotlin.kotlinOptions.jvmTarget = "16"
+compileKotlin.kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+compileKotlin.kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
